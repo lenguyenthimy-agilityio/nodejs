@@ -5,7 +5,7 @@ current_root=$(pwd)
 cd "$current_root"
 cd "../nodejs/frontend"
 sudo npm install
-bower install
+bower install --allow-root
 
 echo "#### Build frontend source code ..."
 grunt build
