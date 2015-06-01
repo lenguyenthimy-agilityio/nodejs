@@ -1,6 +1,6 @@
 #### Online bolog
-cd 'deploy'
-run init.sh
+`cd deploy`
+`sh init.sh`
 
 
 
