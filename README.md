@@ -1,2 +1,28 @@
-# nodejs
-Online blog
+#### Online bolog
+cd 'deploy'
+run init.sh
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
