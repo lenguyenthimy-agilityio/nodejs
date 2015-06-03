@@ -26,20 +26,15 @@ plan.target('production', [
 ]);
 
 // run commands on localhost
-plan.local('local', function(local) {
-  local.log('Run local server');
-  var filesToCopy = local.exec('git ls-files', {silent: true});
-  //local.exec('sh ./runserver.sh');
-  local.transfer(filesToCopy, '/tmp/' + tmpDir);
+plan.local('build', function(local) {
+  local.with('cd /home/deploy/nodejs/deploy', function() {
+    local.exec('ls -la');
+    local.exec('sh deploy.sh');
+  });
 });
 
 // run commands on remote hosts (destinations)
 plan.remote('local', function(remote) {
-  remote.sudo('cp -R /tmp/' + tmpDir + ' ~', {user: username});
-  remote.rm('-rf /tmp/' + tmpDir);
-
-  remote.log('Reload application');
-  remote.sudo('ln -snf ~/' + tmpDir + ' ~/'+ appName, {user: username});
 
   remote.with('cd /home/deploy/onlineBlog/backend', function(){
     remote.exec('ls -la');
@@ -48,8 +43,5 @@ plan.remote('local', function(remote) {
     // remote.exec('forever stop bin/www');
     remote.exec('forever start bin/www');
   });
-  //remote.exec('forever stop ~/' + startFile, {failsafe: true});
- // remote.exec('forever start ~/'+ startFile);
-  //remote.exec('sh ./deploy.sh');
-  //remote.exec('sh ./runserver.sh');
+
 });
