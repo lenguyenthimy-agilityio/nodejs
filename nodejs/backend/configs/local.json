@@ -1,0 +1,14 @@
+{
+  "database" : {
+    "development": {
+      "connectionString": "mongodb://localhost/blogOnline"
+    },
+    "test": {
+      "connectionString": "mongodb://admin:admin@ds037272.mongolab.com:37272/herokublog"
+    }
+  },
+
+  "jwt": {
+    "secretKey": "lenguyen"
+  }
+}

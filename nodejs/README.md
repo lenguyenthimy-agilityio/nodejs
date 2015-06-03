@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ## App structure
 backend/
 frontend/
@@ -29,8 +28,3 @@ frontend/
 ### Run server with mode development
 `./server-dev.sh`
 
-=======
-#### Online bolog
-`cd deploy`
-`sh init.sh`
->>>>>>> 28ba9dfe3a4ad6211451af48eaa5ee97c9c3ca22
