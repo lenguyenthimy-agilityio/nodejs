@@ -51,8 +51,10 @@ plan.local('local-stop', function(local) {
 
 // run server on local
 plan.local('local-run', function(local) {
-  local.with('cd /home/deploy/nodejs/deploy', function(){
-    local.exec('sh ./runserver.sh');
+  local.with('cd /home/deploy/nodejs/backend', function(){
+    var server = local.prompt('What is server want to start? [uid]');
+
+    local.exec('forever start --uid ' + server + ' bin/www --server=development');
   });
 });
 
@@ -84,7 +86,10 @@ plan.local('server-stop', function(remote) {
 
 // run server in server
 plan.remote('server-run', function(remote) {
-  remote.with('cd /root/nodejs/deploy', function(){
-    remote.exec('sh ./runserver.sh');
+  remote.with('cd /root/nodejs/backend', function(){
+
+    var server = remote.prompt('What is server want to start? [uid]');
+
+    remote.exec('forever start --uid ' + server + ' bin/www --server=development');
   });
 });
