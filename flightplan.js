@@ -1,23 +1,23 @@
 var plan = require('flightplan');
 'use strict';
-var username = 'deploy';
+var username = 'root';
 
 // configuration
 plan.target('staging', [
   {
-    host: 'localhost',
+    host: '128.199.139.164',
     username: username,
     agent: process.env.SSH_AUTH_SOCK,
-    privateKey: '/home/vagrant/.ssh/id_rsa'
+    //privateKey: '/home/vagrant/.ssh/id_rsa'
   }
 ]);
 
 plan.target('production', [
   {
-    host: 'localhost',
+    host: '128.199.139.164',
     username: username,
     agent: process.env.SSH_AUTH_SOCK,
-    privateKey: '/home/vagrant/.ssh/id_rsa'
+    //privateKey: '/home/vagrant/.ssh/id_rsa'
   }
 ]);
 
@@ -38,6 +38,17 @@ plan.local('local-deploy', function(local) {
   });
 });
 
+//stop server local
+plan.local('local-stop', function(local) {
+  local.with('cd /home/deploy/nodejs/deploy', function(){
+    local.exec('forever list');
+
+    var server = local.prompt('What is server want to stop? [number]');
+
+    local.exec('forever stop ' + server);
+  });
+});
+
 // run server on local
 plan.local('local-run', function(local) {
   local.with('cd /home/deploy/nodejs/deploy', function(){
@@ -50,21 +61,30 @@ plan.local('local-run', function(local) {
  */
 //install environment in server
 plan.remote('server-install', function(remote) {
-  remote.with('cd /home/deploy/nodejs/deploy', function(){
+  remote.with('cd /root/nodejs/deploy', function(){
     remote.exec('sh ./install.sh');
   });
 });
 
 // Install dependences in server
 plan.remote('server-deploy', function(remote) {
-  remote.with('cd /home/deploy/nodejs/deploy', function(){
+  remote.with('cd /root/nodejs/deploy', function(){
     remote.exec('sh ./deploy.sh');
   });
 });
 
+//stop server local
+plan.local('server-stop', function(remote) {
+  remote.exec('forever list');
+  var server = remote.prompt('What is server want to stop? [number]');
+
+  remote.exec('forever stop ' + server);
+
+});
+
 // run server in server
 plan.remote('server-run', function(remote) {
-  remote.with('cd /home/deploy/nodejs/deploy', function(){
+  remote.with('cd /root/nodejs/deploy', function(){
     remote.exec('sh ./runserver.sh');
   });
 });

@@ -3,5 +3,5 @@ current_root=$(pwd)
 
 cd "$current_root"
 cd "../backend"
-forever stopall
+#forever stopall
 forever start bin/www --server=development
