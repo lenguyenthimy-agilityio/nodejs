@@ -1,10 +1,6 @@
 var plan = require('flightplan');
 'use strict';
-var appName = 'onlineBlog';
 var username = 'deploy';
-var startFile = 'bin/www';
-
-var tmpDir = appName + '-' + new Date().getTime();
 
 // configuration
 plan.target('staging', [
@@ -25,23 +21,50 @@ plan.target('production', [
   }
 ]);
 
-// run commands on localhost
-plan.local('build', function(local) {
-  local.with('cd /home/deploy/nodejs/deploy', function() {
-    local.exec('ls -la');
-    local.exec('sh deploy.sh');
+/**
+ * run commands on localhost
+ */
+ //install environment in local
+plan.local('local-install', function(local) {
+  local.with('cd /home/deploy/nodejs/deploy', function(){
+    local.exec('sh ./install.sh');
   });
 });
 
-// run commands on remote hosts (destinations)
-plan.remote('local', function(remote) {
-
-  remote.with('cd /home/deploy/onlineBlog/backend', function(){
-    remote.exec('ls -la');
-    remote.exec('sudo chmod +x bin/www');
-    remote.exec('forever list');
-    // remote.exec('forever stop bin/www');
-    remote.exec('forever start bin/www');
+//install dependences on local
+plan.local('local-deploy', function(local) {
+  local.with('cd /home/deploy/nodejs/deploy', function(){
+    local.exec('sh ./deploy.sh');
   });
+});
 
+// run server on local
+plan.local('local-run', function(local) {
+  local.with('cd /home/deploy/nodejs/deploy', function(){
+    local.exec('sh ./runserver.sh');
+  });
+});
+
+/**
+ * run command on server
+ */
+//install environment in server
+plan.remote('server-install', function(remote) {
+  remote.with('cd /home/deploy/nodejs/deploy', function(){
+    remote.exec('sh ./install.sh');
+  });
+});
+
+// Install dependences in server
+plan.remote('server-deploy', function(remote) {
+  remote.with('cd /home/deploy/nodejs/deploy', function(){
+    remote.exec('sh ./deploy.sh');
+  });
+});
+
+// run server in server
+plan.remote('server-run', function(remote) {
+  remote.with('cd /home/deploy/nodejs/deploy', function(){
+    remote.exec('sh ./runserver.sh');
+  });
 });
