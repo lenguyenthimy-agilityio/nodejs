@@ -1,36 +1,25 @@
-<<<<<<< HEAD
 ## App structure
 backend/
 frontend/
+deploy/
+### With mode local
 
-## Install & Run the App
-### install modules
-`cd backend`
-`sudo npm install`
-### run server backend
-`bin/www`
+### install environment in local
+`fly local-install:staging`
 
-### install modules 
-`cd frontend`
-`sudo npm install`
-`bower install`
+### install dependences on local
+`fly local-deploy:staging`
 
-### run server frontend
-`grunt server`
+### run server on local
+`fly local-run:staging`
 
-### run generator document using jsdoc
-`cd backend`
-`./jsdoc.sh`
+## With mode server
 
-### Run server with mode test
-`cd backend`
-`./server-test.sh`
+### install environment in server
+`fly server-install:staging`
 
-### Run server with mode development
-`./server-dev.sh`
+### install dependences on server
+`fly server-deploy:staging`
 
-=======
-#### Online bolog
-`cd deploy`
-`sh init.sh`
->>>>>>> 28ba9dfe3a4ad6211451af48eaa5ee97c9c3ca22
+### run server on server
+`fly server-run:staging`
