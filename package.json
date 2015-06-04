@@ -35,9 +35,10 @@
     "jsonwebtoken": "~5.0.1"
   },
   "devDependencies": {
-    "mocha": "^2.2.1",
     "chai": "~2.2.0",
-    "supertest": "~0.15.0",
-    "jsdoc": "~3.3.0-beta3"
+    "flightplan": "^0.6.3",
+    "jsdoc": "~3.3.0-beta3",
+    "mocha": "^2.2.1",
+    "supertest": "~0.15.0"
   }
 }
