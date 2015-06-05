@@ -12,6 +12,13 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
+var arvg = require('optimist').argv,
+    port = arvg.port;
+
+console.log('PORT CONFIG', port);
+
+process.env.PORT = port;
+
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
