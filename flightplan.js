@@ -9,8 +9,12 @@ plan.target(config.target.staging, [
   {
     host: '128.199.139.164',
     username: username,
-    agent: process.env.SSH_AUTH_SOCK,
-    //privateKey: '/home/vagrant/.ssh/id_rsa'
+    agent: process.env.SSH_AUTH_SOCK
+  },
+  {
+    host: '128.199.156.190',
+    username: username,
+    agent: process.env.SSH_AUTH_SOCK
   }
 ]);
 
@@ -18,8 +22,12 @@ plan.target(config.target.production, [
   {
     host: '128.199.139.164',
     username: username,
-    agent: process.env.SSH_AUTH_SOCK,
-    //privateKey: '/home/vagrant/.ssh/id_rsa'
+    agent: process.env.SSH_AUTH_SOCK
+  },
+  {
+    host: '128.199.156.190',
+    username: username,
+    agent: process.env.SSH_AUTH_SOCK
   }
 ]);
 
@@ -63,6 +71,13 @@ plan.local('local-run', function(local) {
 /**
  * run command on server
  */
+
+//clone code
+plan.remote('server-clone', function(remote) {
+  remote.exec('apt-get install git');
+  remote.exec('git clone https://github.com/LeNguyenAS/nodejs.git', { failsafe: true });
+});
+
 //install environment in server
 plan.remote('server-install', function(remote) {
   remote.with('cd /root/nodejs/deploy', function(){
@@ -77,13 +92,13 @@ plan.remote('server-deploy', function(remote) {
   });
 });
 
-//stop server local
-plan.local('server-stop', function(remote) {
+//stop server
+plan.remote('server-stop', function(remote) {
   remote.exec('forever list');
+
   var server = remote.prompt('What is server want to stop? [number]');
 
   remote.exec('forever stop ' + server);
-
 });
 
 // run server in server
