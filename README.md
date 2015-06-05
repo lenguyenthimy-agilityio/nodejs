@@ -15,6 +15,8 @@ deploy/
 
 ## With mode server
 
+### Clone code
+`fly server-clone:staging`
 ### install environment in server
 `fly server-install:staging`
 
