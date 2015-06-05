@@ -1,9 +1,11 @@
-var plan = require('flightplan');
 'use strict';
+var plan = require('flightplan'),
+    config = require('./config.deloy');
+
 var username = 'root';
 
 // configuration
-plan.target('staging', [
+plan.target(config.target.staging, [
   {
     host: '128.199.139.164',
     username: username,
@@ -12,7 +14,7 @@ plan.target('staging', [
   }
 ]);
 
-plan.target('production', [
+plan.target(config.target.production, [
   {
     host: '128.199.139.164',
     username: username,
@@ -90,6 +92,8 @@ plan.remote('server-run', function(remote) {
 
     var server = remote.prompt('What is server want to start? [uid]');
 
-    remote.exec('forever start --uid ' + server + ' bin/www --server=development');
+    var port = remote.prompt('What is port want to start? [number]');
+
+    remote.exec('forever start --uid ' + server + ' bin/www --server=development --port=' + port);
   });
 });
